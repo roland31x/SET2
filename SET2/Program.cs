@@ -148,31 +148,234 @@ namespace SET2
         {
             throw new NotImplementedException();
         }
+        /// <summary>
+        /// secventa bitonica rotita
+        /// </summary>
         private static void P16()
         {
-            throw new NotImplementedException();
-        }
-        private static void P15()
-        {
-            throw new NotImplementedException();
-        }
-        private static void P14()
-        {
-            throw new NotImplementedException();
-        }
-        private static void P13()
-        {
-            Console.WriteLine("13. Determinati daca o secventa de n numere este o secventa crescatoare rotita. ");
-            Console.WriteLine("ex 9. Sa se determine daca o secventa de n numere este monotona.");
+            Console.WriteLine("ex 15. Se da o secventa de n numere. Sa se determine daca este bitonica. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
             Console.WriteLine("\nIntroduceti secventa de numere:");
             string secventaintro = Console.ReadLine();
             string secventa = secventaintro.Replace(" ", "");
-            int countcresc = 0;
-            int minvalue = int.MinValue;
-            int seqvalue = 1;
+            int maxval = int.MinValue;
+            int minval = int.MaxValue;
+            int maxseqvalue = 0, minseqvalue = 0;
+            char separator = ',';
+            if (secventa.Contains(';'))
+            {
+                separator = ';';
+            }
+            try
+            {
+                for (int j = 0; j < n; j++) // pentru a afla cele doua puncte care determina monotonia
+                {
+                    int a;
+                    a = int.Parse(secventa.Split(separator)[j]);
+                    if (j == 0)
+                    {
+                        maxval = a;
+                        minval = a;
+                    }
+                    if (j > 0)
+                    {
+                        if (maxval < a)
+                        {
+                            maxval = a;
+                            maxseqvalue = j;
+                        }
+                        if (minval > a)
+                        {
+                            minval = a;
+                            minseqvalue = j;
+                        }
+                    }
+                }
+                if (minseqvalue < maxseqvalue)
+                {
+                    for (int i = minseqvalue; i < maxseqvalue - 1; i++)
+                    {
+                        int a, b;
+                        a = int.Parse(secventa.Split(separator)[i]);
+                        b = int.Parse(secventa.Split(separator)[i + 1]);
+                        if (a > b)
+                        {
+                            Console.WriteLine("Secventa nu este o secventa bitonica rotita.");
+                            return;
+                        }
+                    }
+                    for (int i = 0; i < minseqvalue - 1; i++)
+                    {
+                        int a, b;
+                        a = int.Parse(secventa.Split(separator)[i]);
+                        b = int.Parse(secventa.Split(separator)[i + 1]);
+                        if (a < b)
+                        {
+                            Console.WriteLine("Secventa nu este o secventa bitonica rotita.");
+                            return;
+                        }
+                    }
+                    for (int i = maxseqvalue; i < n - 1; i++)
+                    {
+                        int a, b;
+                        a = int.Parse(secventa.Split(separator)[i]);
+                        b = int.Parse(secventa.Split(separator)[i + 1]);
+                        if (a < b)
+                        {
+                            Console.WriteLine("Secventa nu este o secventa bitonica rotita.");
+                            return;
+                        }
+                    }
+                    if (int.Parse(secventa.Split(separator)[0]) > int.Parse(secventa.Split(separator)[n - 1])) // continuitate la extremitati
+                    {
+                        Console.WriteLine("Secventa nu este o secventa bitonica rotita.");
+                        return;
+                    }
+                }
+                if (maxseqvalue < minseqvalue) // invers cu monotonia, intre cele 2 maxima descreste, si creste la extremitati
+                {
+                    for (int i = maxseqvalue; i < minseqvalue - 1; i++)
+                    {
+                        int a, b;
+                        a = int.Parse(secventa.Split(separator)[i]);
+                        b = int.Parse(secventa.Split(separator)[i + 1]);
+                        if (a < b)
+                        {
+                            Console.WriteLine("Secventa nu este o secventa bitonica rotita.");
+                            return;
+                        }
+                    }
+                    for (int i = 0; i < maxseqvalue - 1; i++)
+                    {
+                        int a, b;
+                        a = int.Parse(secventa.Split(separator)[i]);
+                        b = int.Parse(secventa.Split(separator)[i + 1]);
+                        if (a > b)
+                        {
+                            Console.WriteLine("Secventa nu este o secventa bitonica rotita.");
+                            return;
+                        }
+                    }
+                    for (int i = minseqvalue; i < n - 1; i++)
+                    {
+                        int a, b;
+                        a = int.Parse(secventa.Split(separator)[i]);
+                        b = int.Parse(secventa.Split(separator)[i + 1]);
+                        if (a > b)
+                        {
+                            Console.WriteLine("Secventa nu este o secventa bitonica rotita.");
+                            return;
+                        }
+                    }
+                    if (int.Parse(secventa.Split(separator)[0]) < int.Parse(secventa.Split(separator)[n - 1])) // continuitate la extremitati
+                    {
+                        Console.WriteLine("Secventa nu este o secventa bitonica rotita.");
+                        return;
+                    }
+                }
+                Console.WriteLine("Secventa este o secventa bitonica rotita."); // chiar sper ca functioneaza cum trebuie, astea bitonice sunt greu de interpretat
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine un numar prea mare!!!");
+                return;
+            }
+        }
+        /// <summary>
+        /// secventa bitonica
+        /// </summary>
+        private static void P15()
+        {
+            Console.WriteLine("ex 15. Se da o secventa de n numere. Sa se determine daca este bitonica. ");
+            Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
+            uint n = N_CHECK();
+            if (n == 0) return;
+            Console.WriteLine("\nIntroduceti secventa de numere:");
+            string secventaintro = Console.ReadLine();
+            string secventa = secventaintro.Replace(" ", "");
+            int countcresc = 0, countdescresc = 0;
+            char separator = ',';
+            if (secventa.Contains(';'))
+            {
+                separator = ';';
+            }
+            try
+            {
+                for (int i = 0; i < n - 1; i++)
+                {
+                    int a, b;
+                    a = int.Parse(secventa.Split(separator)[i]);
+                    b = int.Parse(secventa.Split(separator)[i + 1]);
+                    if (countcresc < 1) // secventa bitonica prima data creste, si inca nu a crescut
+                    {
+                        if (a > b)
+                        {
+                            Console.WriteLine("Secventa nu este bitonica.");
+                            return;
+                        }
+                        else countcresc++;
+                    }
+                    if (a < b) countcresc++; 
+                    if (a > b) countdescresc++;  // inreg prima descrestere
+                    if (countdescresc > 1) // dupa ce a descrescut nu mai are voie sa creasca.
+                    {
+                        if (a < b)
+                        {
+                            Console.WriteLine("Secventa nu este bitonica.");
+                            return;
+                        }
+                    }                  
+                }
+                if (countcresc < 1 || countdescresc < 1) // inseamna ca ii crescatoare / descrescatoare 
+                {
+                    Console.WriteLine("Secventa nu este bitonica.");
+                    return;
+                }
+                Console.WriteLine("Secventa este bitonica.");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine un numar prea mare!!!");
+                return;
+            }
+        }
+        /// <summary>
+        /// secventa monotona rotita
+        /// </summary>
+        private static void P14()
+        {
+            Console.WriteLine("ex 14. Determinati daca o secventa de n numere este o secventa monotona rotita. ");
+            Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
+            uint n = N_CHECK();
+            if (n == 0) return;
+            Console.WriteLine("\nIntroduceti secventa de numere:");
+            string secventaintro = Console.ReadLine();
+            string secventa = secventaintro.Replace(" ", "");
+            int countcresc = 0, countdesc = 0;
+            int minvalue = int.MaxValue; // n-are importanta dar nu ma lasa sa ii schimb valoare in functia if
+            int seqvalue = 0;
             char separator = ',';
             if (secventa.Contains(';'))
             {
@@ -181,6 +384,125 @@ namespace SET2
             try
             {
                 for (int i = 0; i < n; i++)
+                {
+                    int a;
+                    a = int.Parse(secventa.Split(separator)[i]);
+                    if (i == 0)
+                    {
+                        minvalue = a;
+                    }
+                    if (i > 0)
+                    {
+                        if (minvalue > a)
+                        {
+                            minvalue = a;
+                            seqvalue = i;
+                        }
+                    }
+                }
+                int rotire = 0;
+                int desc = 0;
+                if (seqvalue != 0 && seqvalue != (n - 1))
+                {
+                    rotire = 1;
+                    if (int.Parse(secventa.Split(separator)[seqvalue - 1]) < int.Parse(secventa.Split(separator)[seqvalue + 1])) // verificam la punctul de rotire monotonia secventei.
+                    {
+                        seqvalue += 1; // ca sa comparam numerele din sir de la cel mai mare la cel mai mic ( seqvalue este locul unde gasim cel mai mic nr )
+                        desc = 1; // ca sa stim daca este descrescatoare
+
+                    }
+                }
+                for (int j = seqvalue; j < n - 1; j++)
+                {
+                    int a, b;
+                    a = int.Parse(secventa.Split(separator)[j]);
+                    b = int.Parse(secventa.Split(separator)[j + 1]);
+                    if (a <= b) countcresc++;
+                    if (a >= b) countdesc++;
+                    if (countcresc > 0 && countdesc > 0)
+                    {
+                        Console.WriteLine("Secventa nu este o secventa monotona rotita.");
+                        return;
+                    }
+                }
+                if (seqvalue != 0 && seqvalue != (n - 1))
+                {
+                    for (int j = 0; j < seqvalue - 1; j++)
+                    {                       
+                        int a, b;
+                        a = int.Parse(secventa.Split(separator)[j]);
+                        b = int.Parse(secventa.Split(separator)[j + 1]);
+                        if (a <= b) countcresc++;
+                        if (a >= b) countdesc++;
+                        if (countcresc > 0 && countdesc > 0)
+                        {
+                            Console.WriteLine("Secventa nu este o secventa monotona rotita.");
+                            return;
+                        }
+                    }
+                }
+                if (rotire == 1) // daca sirul trebuie rotit trebuie comparat primul cu ultimul numar din sir pentru continuitate.
+                {
+                    if (desc == 1) // daca e descrescator sirul 
+                    {
+                        if (int.Parse(secventa.Split(separator)[0]) < int.Parse(secventa.Split(separator)[n - 1]))
+                        {
+                            Console.WriteLine("Secventa este o secventa monotona rotita.");
+                            return;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Secventa nu este o secventa monotona rotita.");
+                            return;
+                        }
+                    }
+                    if (int.Parse(secventa.Split(separator)[0]) < int.Parse(secventa.Split(separator)[n - 1]))
+                    {
+                        Console.WriteLine("Secventa nu este o secventa monotona rotita.");
+                        return;
+                    }
+                }
+                Console.WriteLine("Secventa este o secventa monotona rotita.");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine un numar prea mare!!!");
+                return;
+            }
+        }
+        /// <summary>
+        /// secventa crescatoare rotita
+        /// </summary>
+        private static void P13()
+        {
+            Console.WriteLine("ex 13. Determinati daca o secventa de n numere este o secventa crescatoare rotita. ");
+            Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
+            uint n = N_CHECK();
+            if (n == 0) return;
+            Console.WriteLine("\nIntroduceti secventa de numere:");
+            string secventaintro = Console.ReadLine();
+            string secventa = secventaintro.Replace(" ", "");
+            int countcresc = 0;
+            int minvalue = int.MaxValue; // n-are importanta, trebuie sa aiba o valoare predefinita.
+            int seqvalue = 0;
+            char separator = ',';
+            if (secventa.Contains(';'))
+            {
+                separator = ';';
+            }
+            try
+            {
+                for (int i = 0; i < n; i++) // gasirea numarului la care se va roti
                 {
                     int b;
                     b = int.Parse(secventa.Split(separator)[i]);
@@ -202,21 +524,29 @@ namespace SET2
                     int a, b;
                     a = int.Parse(secventa.Split(separator)[j]);
                     b = int.Parse(secventa.Split(separator)[j + 1]);
-                    if (a < b) countcresc++;
-                    if (countcresc == 0)
+                    if (a > b) countcresc++; // nu este precizat daca trebuie sa fie strict crescatoare ( daca da atunci a >= b )
+                    if (countcresc > 0)
                     {
                         Console.WriteLine("Secventa nu este o secventa crescatoare rotita.");
                         return;
                     }
                 }
-                countcresc = 0;
-                for (int j = 0; j < seqvalue - 1; j++) 
-                {                   
-                    int a, b;
-                    a = int.Parse(secventa.Split(separator)[j]);
-                    b = int.Parse(secventa.Split(separator)[j + 1]);
-                    if (a < b) countcresc++;
-                    if (countcresc == 0)
+                if (seqvalue != 0)
+                {
+                    countcresc = 0;
+                    for (int j = 0; j < seqvalue - 1; j++)
+                    {
+                        int a, b;
+                        a = int.Parse(secventa.Split(separator)[j]);
+                        b = int.Parse(secventa.Split(separator)[j + 1]);
+                        if (a > b) countcresc++;
+                        if (countcresc > 0)
+                        {
+                            Console.WriteLine("Secventa nu este o secventa crescatoare rotita.");
+                            return;
+                        }
+                    }
+                    if (int.Parse(secventa.Split(separator)[0]) < int.Parse(secventa.Split(separator)[n - 1]))
                     {
                         Console.WriteLine("Secventa nu este o secventa crescatoare rotita.");
                         return;
@@ -418,8 +748,8 @@ namespace SET2
                     int a, b;
                     a = int.Parse(secventa.Split(separator)[i]);
                     b = int.Parse(secventa.Split(separator)[i + 1]);
-                    if (a > b) countdescresc++;
-                    if (a < b) countcresc++;
+                    if (a > b) countdescresc++; // nu este precizat strict monotonia, pentru strict a >= b 
+                    if (a < b) countcresc++; //                                                     sau aici a <= b
                     if (countdescresc > 0 && countcresc > 0)
                     {
                         Console.WriteLine("Secventa nu este monotona.");
@@ -907,10 +1237,17 @@ namespace SET2
         {
             Console.Clear();
         }
+        /// <summary>
+        /// mesaj de instructie
+        /// </summary>
         private static void SEQ_i()
         {
             Console.WriteLine("PENTRU INTRODUCEREA SECVENTEI DE NUMERE SE FOLOSESTE ',' SAU ';' INTRE NUMERE!"); // e important pentru ca spatiile libere sunt eliminate din stringul de introducere, si este mult mai usor de observat si scris o secventa cu caractere de delimitare, mai ales cand ii foarte lung.
         }
+        /// <summary>
+        /// Validare de date pentru lungimea secventei
+        /// </summary>
+        /// <returns>lungimea secventei</returns>
         private static uint N_CHECK()
         {
             uint n;
