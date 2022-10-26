@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -161,36 +162,329 @@ namespace SET2
         }
         private static void P13()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("13. Determinati daca o secventa de n numere este o secventa crescatoare rotita. ");
+            Console.WriteLine("ex 9. Sa se determine daca o secventa de n numere este monotona.");
+            Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
+            uint n = N_CHECK();
+            if (n == 0) return;
+            Console.WriteLine("\nIntroduceti secventa de numere:");
+            string secventaintro = Console.ReadLine();
+            string secventa = secventaintro.Replace(" ", "");
+            int countcresc = 0;
+            int minvalue = int.MinValue;
+            int seqvalue = 1;
+            char separator = ',';
+            if (secventa.Contains(';'))
+            {
+                separator = ';';
+            }
+            try
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    int b;
+                    b = int.Parse(secventa.Split(separator)[i]);
+                    if (i == 0)
+                    {
+                        minvalue = b;
+                    }
+                    if (i > 0)
+                    {
+                        if (minvalue > b)
+                        {
+                            minvalue = b;
+                            seqvalue = i;
+                        }
+                    }
+                }
+                for (int j = seqvalue; j < n - 1; j++)
+                {
+                    int a, b;
+                    a = int.Parse(secventa.Split(separator)[j]);
+                    b = int.Parse(secventa.Split(separator)[j + 1]);
+                    if (a < b) countcresc++;
+                    if (countcresc == 0)
+                    {
+                        Console.WriteLine("Secventa nu este o secventa crescatoare rotita.");
+                        return;
+                    }
+                }
+                countcresc = 0;
+                for (int j = 0; j < seqvalue - 1; j++) 
+                {                   
+                    int a, b;
+                    a = int.Parse(secventa.Split(separator)[j]);
+                    b = int.Parse(secventa.Split(separator)[j + 1]);
+                    if (a < b) countcresc++;
+                    if (countcresc == 0)
+                    {
+                        Console.WriteLine("Secventa nu este o secventa crescatoare rotita.");
+                        return;
+                    }
+                }
+                Console.WriteLine("Secventa este o secventa crescatoare rotita.");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine un numar prea mare!!!");
+                return;
+            }
         }
+        /// <summary>
+        /// grupuri de nr consecutive delimitate de 0
+        /// </summary>
         private static void P12()
         {
-            throw new NotImplementedException();
+            // interpretarea mea este ca cautam cate numere reale, dintr-un sir A(n) in care numerele A(n) != 0 formeaza grupul, iar 0 delimita grupurile.
+            // nu stiu daca numere consecutive inseamna si numere in ordine crescatoare
+            Console.WriteLine("ex 12. Cate grupuri de numere consecutive diferite de zero sunt intr-o secventa de n numere. \nConsiderati fiecare astfel de grup ca fiind un cuvant, zero fiind delimitator de cuvinte.");
+            Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
+            uint n = N_CHECK();
+            if (n == 0) return;
+            Console.WriteLine("\nIntroduceti secventa de numere:");
+            string secventaintro = Console.ReadLine();
+            string secventa = secventaintro.Replace(" ", "");
+            int countegal = 0, countgrup = 1;
+            char separator = ',';
+            if (secventa.Contains(';'))
+            {
+                separator = ';';
+            }
+            try
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    int a;
+                    a = int.Parse(secventa.Split(separator)[i]);
+                    if (a != 0)
+                    {
+                        countegal++;
+                    }
+                    if (a == 0 && countegal != 0)
+                    {
+                        countgrup++;
+                        countegal = 0;
+                    }
+                    Console.WriteLine($"Secventa contine {countgrup} grupuri de numere consecutive diferite de zero");
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine un numar prea mare!!!");
+                return;
+            }
         }
+        /// <summary>
+        /// suma inverselor ale numerelor dintr-o secventa
+        /// </summary>
         private static void P11()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("11. Se da o secventa de n numere. Se cere sa se calculeze suma inverselor acestor numere.");
+            Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
+            uint n = N_CHECK();
+            if (n == 0) return;
+            Console.WriteLine("\nIntroduceti secventa de numere:");
+            string secventaintro = Console.ReadLine();
+            string secventa = secventaintro.Replace(" ", "");
+            long suma = 0;
+            char separator = ',';
+            if (secventa.Contains(';'))
+            {
+                separator = ';';
+            }
+            try
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    int a, inv = 0;
+                    a = int.Parse(secventa.Split(separator)[i]);
+                    while (a != 0)
+                    {
+                        inv = inv * 10 + a % 10;
+                        a /= 10;                        
+                    }
+                    suma += inv;
+                }
+                Console.WriteLine($"Suma inverselor numerelor din secventa este: {suma}");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine un numar prea mare!!!");
+                return;
+            }
         }
+        /// <summary>
+        /// nr consecutive egale
+        /// </summary>
         private static void P10()
-        {
-            throw new NotImplementedException();
+        {  
+            Console.WriteLine("ex 10. Se da o secventa de n numere. Care este numarul maxim de numere consecutive egale din secventa.");
+            Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
+            uint n = N_CHECK();
+            if (n == 0) return;
+            Console.WriteLine("\nIntroduceti secventa de numere:");
+            string secventaintro = Console.ReadLine();
+            string secventa = secventaintro.Replace(" ", "");
+            int countegal = 0, countmax = 0;
+            char separator = ',';
+            if (secventa.Contains(';'))
+            {
+                separator = ';';
+            }
+            try
+            {
+                for (int i = 0; i < n - 1; i++)
+                {
+                    int a, b;
+                    a = int.Parse(secventa.Split(separator)[i]);
+                    b = int.Parse(secventa.Split(separator)[i + 1]);
+                    if (a == b)
+                    {
+                        countegal++;
+                        countmax = countegal;
+                    }
+                    if (a != b) countegal = 0;
+                }
+                Console.WriteLine($"Secventa contine maxim {countmax + 1} numere consecutive egale.");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine un numar prea mare!!!");
+                return;
+            }
         }
+        /// <summary>
+        /// monotonia secventei
+        /// </summary>
         private static void P9()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("ex 9. Sa se determine daca o secventa de n numere este monotona.");
+            Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
+            uint n = N_CHECK();
+            if (n == 0) return;
+            Console.WriteLine("\nIntroduceti secventa de numere:");
+            string secventaintro = Console.ReadLine();
+            string secventa = secventaintro.Replace(" ", "");
+            int countcresc = 0, countdescresc = 0;
+            char separator = ',';
+            if (secventa.Contains(';'))
+            {
+                separator = ';';
+            }
+            try
+            {
+                for (int i = 0; i < n - 1; i++)
+                {
+                    int a, b;
+                    a = int.Parse(secventa.Split(separator)[i]);
+                    b = int.Parse(secventa.Split(separator)[i + 1]);
+                    if (a > b) countdescresc++;
+                    if (a < b) countcresc++;
+                    if (countdescresc > 0 && countcresc > 0)
+                    {
+                        Console.WriteLine("Secventa nu este monotona.");
+                        return;
+                    }                  
+                }
+                Console.WriteLine("Secventa este monotona.");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine un numar prea mare!!!");
+                return;
+            }
         }
         /// <summary>
         /// Fibonacci calculator
         /// </summary>
         private static void P8()
         {
-        throw new NotImplementedException();
+            Console.WriteLine("8. Determianti al n-lea numar din sirul lui Fibonacci. Sirul lui Fibonacci se construieste astfel: f1 = 0, f2 = 1, f_n = f_(n-1) + f(n-2).");
+            int nr0 = 0;
+            int nr1 = 1;
+            int nr = 1;
+            Console.WriteLine("\nIntroduceti n : ");
+            uint n = N_CHECK();
+            if (n == 0) return;
+            if (n == 1)
+            {
+                Console.WriteLine("Primul termen din sirul lui fibonacci este 0.");
+                return;
+            }
+            if (n == 2)
+            {
+                Console.WriteLine("Al 2=lea termen din sirul lui fibonacci este 1.");
+                return;
+            }
+            for (uint i = 3; i <= n; i++) 
+            {
+                nr = nr0 + nr1;
+                nr0 = nr1;
+                nr1 = nr;                
+               // Console.WriteLine($"\n{nr}");
+            }
+            Console.WriteLine($"\nAl {n}-lea termen din sirul lui Fibonacci este: {nr}");
+
         }
+        /// <summary>
+        /// Valoare minima si maxima dintr-o secventa
+        /// </summary>
         private static void P7()
         {
             Console.WriteLine("ex 7. Se da o secventa de n numere. Sa se determine cea mai mare si cea mai mica valoare din secventa. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
+            if (n == 0) return;
             Console.WriteLine("\nIntroduceti secventa de numere:");
             string secventaintro = Console.ReadLine();
             string secventa = secventaintro.Replace(" ", "");
@@ -252,6 +546,7 @@ namespace SET2
             Console.WriteLine("ex 6. Se da o secventa de n numere. Sa se determine daca numerele din secventa sunt in ordine crescatoare.");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
+            if (n == 0) return;
             Console.WriteLine("\nIntroduceti secventa de numere:");
             string secventaintro = Console.ReadLine();
             string secventa = secventaintro.Replace(" ", "");
@@ -305,6 +600,7 @@ namespace SET2
             Console.WriteLine("5. Cate elemente dintr-o secventa de n numere sunt egale cu pozitia pe care apar in secventa. \n   Se considera ca primul element din secventa este pe pozitia 0. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
+            if (n == 0) return;
             Console.WriteLine("\nIntroduceti secventa de numere:");
             string secventaintro = Console.ReadLine();
             string secventa = secventaintro.Replace(" ", "");
@@ -349,6 +645,7 @@ namespace SET2
             Console.WriteLine("4. Se da o secventa de n numere. Determinati pe ce pozitie se afla in secventa un numar 'a'.");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
+            if (n == 0) return;
             Console.WriteLine("\nIntroduceti secventa de numere:");
             string secventaintro = Console.ReadLine();
             string secventa = secventaintro.Replace(" ", "");
@@ -411,6 +708,7 @@ namespace SET2
             Console.WriteLine("ex 3. Calculati suma si produsul numerelor de la 1 la n.");
             Console.WriteLine("\nIntroduceti 'n' : ");
             ulong n = ulong.Parse(Convert.ToString(N_CHECK()));
+            if (n == 0) return;
             if (n < 1)
             {
                 Console.WriteLine("'n' trebuie sa fie mai mare decat 1 ca operatia sa aiba sens!!!"); // serios cine nu citeste indicatia
@@ -457,6 +755,7 @@ namespace SET2
             Console.WriteLine("ex 2. Se da o secventa de n numere. Sa se determina cate sunt negative, cate sunt zero si cate sunt pozitive. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
+            if (n == 0) return;
             Console.WriteLine("\nIntroduceti secventa de numere:");
             string secventaintro = Console.ReadLine();
             string secventa = secventaintro.Replace(" ","");
@@ -532,9 +831,10 @@ namespace SET2
                 }
             }
             */
-            // metoda fara tablou ( sper ca split-ul temporar nu se considera tablou )
+            // metoda fara tablou ( sper ca split-ul temporar nu se considera tablou, altfel nu stiu cum s-ar putea cu o secventa de tip: 1,2,3,4,5 )
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
+            if (n == 0) return;
             Console.WriteLine("\nIntroduceti secventa de numere:");
             string secventaintro = Console.ReadLine();
             string secventa = secventaintro.Replace(" ", "");
@@ -601,6 +901,7 @@ namespace SET2
             Console.WriteLine();
             Console.WriteLine("Pentru a reveni la meniul de selectie apasati orice buton.");
             Console.ReadKey();
+            return;
         }
         private static void Start()
         {
@@ -623,10 +924,9 @@ namespace SET2
             }
             if (n == 0)
             {
-                Console.WriteLine("O secventa de 0 numere este nula!!!");
-                Finish();
+                Console.WriteLine("O secventa de 0 numere nu exista!!!");               
             }
             return n;
-        }
+        }              
     }    
 } 
