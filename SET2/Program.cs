@@ -146,7 +146,7 @@ namespace SET2
         }
         private static void P17()
         {
-            Console.WriteLine("ex 17:\n Se da o secventa de 0 si 1, unde 0 inseamna paranteza deschisa si 1 inseamna paranteza inchisa. \n    Determinati daca secventa reprezinta o secventa de paranteze corecta si,\n    daca este, determinati nivelul maxim de incuibare a parantezelor.");
+            Console.WriteLine("ex 17:\n   Se da o secventa de 0 si 1, unde 0 inseamna paranteza deschisa si 1 inseamna paranteza inchisa. \n    Determinati daca secventa reprezinta o secventa de paranteze corecta si,\n    daca este, determinati nivelul maxim de incuibare a parantezelor.");
             Console.WriteLine("\nIntroduceti secventa de numere:");
             string secventaintro = Console.ReadLine();
             string secventa = secventaintro.Replace(" ", "");
@@ -157,7 +157,7 @@ namespace SET2
             int incuibaux2 = 1;
             char separator = ',';
             string secventalength = secventaintro.Replace(",", "");
-            int n = secventalength.Length;
+            int n = secventalength.Length; // aici nu este necesar o lungime introdusa, fiindca numerele din sir sunt de maxim 1 cifra.
             if (secventa.Contains(';'))
             {
                 secventalength = secventaintro.Replace(";", "");
