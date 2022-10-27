@@ -146,14 +146,97 @@ namespace SET2
         }
         private static void P17()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("ex 17:\n Se da o secventa de 0 si 1, unde 0 inseamna paranteza deschisa si 1 inseamna paranteza inchisa. \n    Determinati daca secventa reprezinta o secventa de paranteze corecta si,\n    daca este, determinati nivelul maxim de incuibare a parantezelor.");
+            Console.WriteLine("\nIntroduceti secventa de numere:");
+            string secventaintro = Console.ReadLine();
+            string secventa = secventaintro.Replace(" ", "");
+            int countst = 0; // paranteze deschise
+            int countf = 0; // paranteze inchise
+            int incuib = 1;
+            int incuibaux1 = 0;
+            int incuibaux2 = 1;
+            char separator = ',';
+            string secventalength = secventaintro.Replace(",", "");
+            int n = secventalength.Length;
+            if (secventa.Contains(';'))
+            {
+                secventalength = secventaintro.Replace(";", "");
+                n = secventalength.Length;
+            }           
+            try
+            {
+                for (int i = 0; i < n; i++) // sa verificam daca secventa introdusa este formada doar din 0-uri sau 1-uri
+                {
+                    int a;
+                    a = int.Parse(secventa.Split(separator)[i]);
+                    if (a != 0 && a != 1)
+                    {
+                        Console.WriteLine("Secventa introdusa este incorecta, trebuia sa contina doar 0 sau 1!");
+                        return;
+                    }
+                }
+                for (int i = 0; i < n; i++)
+                {
+                    int a;
+                    a = int.Parse(secventa.Split(separator)[i]);
+                    if ( i == 0 )
+                    {
+                        if ( a == 1 )
+                        {
+                            Console.WriteLine("Secventa introdusa este incorecta");
+                            return;
+                        }
+                    }
+                    if ( a == 0 )
+                    {
+                        countst++;
+                        incuibaux1++;
+                    }
+                    if ( a == 1 )
+                    {
+                        countf++;
+                        incuibaux1--;
+                    }
+                    if (incuibaux1 > 0 && a == 0 )
+                    {
+                        incuib = incuibaux1;
+                        if (incuibaux2 < incuib)
+                        {
+                            incuibaux2 = incuib;
+                        }                       
+                    }
+                    if (incuibaux1 == 0) incuib = 0;
+                }
+                if (countst != countf)
+                {
+                    Console.WriteLine("Secventa introdusa este incorecta");
+                    return;
+                }
+                Console.WriteLine($"Secventa introdusa este corecta si are nivelul maxim de incuibare {incuibaux2}"); // - 1 pentru ca nivel 1 = 1 paranteza intr-o paranteza prin interpretarea mea.
+                return;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine caractere necorespunzatoare sau nu corespunde lungimii declarate anterior!!!");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nSecventa de numere introdusa contine un numar prea mare!!!");
+                return;
+            }
         }
         /// <summary>
         /// secventa bitonica rotita
         /// </summary>
         private static void P16()
         {
-            Console.WriteLine("ex 15. Se da o secventa de n numere. Sa se determine daca este bitonica. ");
+            Console.WriteLine("ex 16:\n   Se da o secventa de n numere. Se cere sa se determine daca este o secventa bitonica rotita.");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -298,7 +381,7 @@ namespace SET2
         /// </summary>
         private static void P15()
         {
-            Console.WriteLine("ex 15. Se da o secventa de n numere. Sa se determine daca este bitonica. ");
+            Console.WriteLine("ex 15:\n   Se da o secventa de n numere. Sa se determine daca este bitonica. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -366,7 +449,7 @@ namespace SET2
         /// </summary>
         private static void P14()
         {
-            Console.WriteLine("ex 14. Determinati daca o secventa de n numere este o secventa monotona rotita. ");
+            Console.WriteLine("ex 14:\n   Determinati daca o secventa de n numere este o secventa monotona rotita. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -485,7 +568,7 @@ namespace SET2
         /// </summary>
         private static void P13()
         {
-            Console.WriteLine("ex 13. Determinati daca o secventa de n numere este o secventa crescatoare rotita. ");
+            Console.WriteLine("ex 13:\n   Determinati daca o secventa de n numere este o secventa crescatoare rotita. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -577,7 +660,7 @@ namespace SET2
         {
             // interpretarea mea este ca cautam cate numere reale, dintr-un sir A(n) in care numerele A(n) != 0 formeaza grupul, iar 0 delimita grupurile.
             // nu stiu daca numere consecutive inseamna si numere in ordine crescatoare
-            Console.WriteLine("ex 12. Cate grupuri de numere consecutive diferite de zero sunt intr-o secventa de n numere. \nConsiderati fiecare astfel de grup ca fiind un cuvant, zero fiind delimitator de cuvinte.");
+            Console.WriteLine("ex 12:\n   Cate grupuri de numere consecutive diferite de zero sunt intr-o secventa de n numere. \n   Considerati fiecare astfel de grup ca fiind un cuvant, zero fiind delimitator de cuvinte.");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -629,7 +712,7 @@ namespace SET2
         /// </summary>
         private static void P11()
         {
-            Console.WriteLine("11. Se da o secventa de n numere. Se cere sa se calculeze suma inverselor acestor numere.");
+            Console.WriteLine("ex 11:\n   Se da o secventa de n numere. Se cere sa se calculeze suma inverselor acestor numere.");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -678,7 +761,7 @@ namespace SET2
         /// </summary>
         private static void P10()
         {  
-            Console.WriteLine("ex 10. Se da o secventa de n numere. Care este numarul maxim de numere consecutive egale din secventa.");
+            Console.WriteLine("ex 10:\n   Se da o secventa de n numere. Care este numarul maxim de numere consecutive egale din secventa.");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -728,7 +811,7 @@ namespace SET2
         /// </summary>
         private static void P9()
         {
-            Console.WriteLine("ex 9. Sa se determine daca o secventa de n numere este monotona.");
+            Console.WriteLine("ex 9:\n   Sa se determine daca o secventa de n numere este monotona.");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -779,7 +862,7 @@ namespace SET2
         /// </summary>
         private static void P8()
         {
-            Console.WriteLine("8. Determianti al n-lea numar din sirul lui Fibonacci. Sirul lui Fibonacci se construieste astfel: f1 = 0, f2 = 1, f_n = f_(n-1) + f(n-2).");
+            Console.WriteLine("ex 8:\n   Determianti al n-lea numar din sirul lui Fibonacci.\n   Sirul lui Fibonacci se construieste astfel: f1 = 0, f2 = 1, f_n = f_(n-1) + f(n-2).");
             int nr0 = 0;
             int nr1 = 1;
             int nr = 1;
@@ -811,7 +894,7 @@ namespace SET2
         /// </summary>
         private static void P7()
         {
-            Console.WriteLine("ex 7. Se da o secventa de n numere. Sa se determine cea mai mare si cea mai mica valoare din secventa. ");
+            Console.WriteLine("ex 7:\n   Se da o secventa de n numere. Sa se determine cea mai mare si cea mai mica valoare din secventa. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -873,7 +956,7 @@ namespace SET2
         /// </summary>
         private static void P6()
         {
-            Console.WriteLine("ex 6. Se da o secventa de n numere. Sa se determine daca numerele din secventa sunt in ordine crescatoare.");
+            Console.WriteLine("ex 6:\n   Se da o secventa de n numere. Sa se determine daca numerele din secventa sunt in ordine crescatoare.");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -927,7 +1010,7 @@ namespace SET2
         /// </summary>
         private static void P5()
         {
-            Console.WriteLine("5. Cate elemente dintr-o secventa de n numere sunt egale cu pozitia pe care apar in secventa. \n   Se considera ca primul element din secventa este pe pozitia 0. ");
+            Console.WriteLine("ex 5:\n   Cate elemente dintr-o secventa de n numere sunt egale cu pozitia pe care apar in secventa. \n   Se considera ca primul element din secventa este pe pozitia 0. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -972,7 +1055,7 @@ namespace SET2
         /// </summary>
         private static void P4()
         {
-            Console.WriteLine("4. Se da o secventa de n numere. Determinati pe ce pozitie se afla in secventa un numar 'a'.");
+            Console.WriteLine("ex 4:\n   Se da o secventa de n numere. Determinati pe ce pozitie se afla in secventa un numar 'a'.");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -1035,7 +1118,7 @@ namespace SET2
         /// </summary>
         private static void P3()
         {
-            Console.WriteLine("ex 3. Calculati suma si produsul numerelor de la 1 la n.");
+            Console.WriteLine("ex 3:\n   Calculati suma si produsul numerelor de la 1 la n.");
             Console.WriteLine("\nIntroduceti 'n' : ");
             ulong n = ulong.Parse(Convert.ToString(N_CHECK()));
             if (n == 0) return;
@@ -1082,7 +1165,7 @@ namespace SET2
         /// </summary>
         private static void P2()
         {
-            Console.WriteLine("ex 2. Se da o secventa de n numere. Sa se determina cate sunt negative, cate sunt zero si cate sunt pozitive. ");
+            Console.WriteLine("ex 2:\n   Se da o secventa de n numere. Sa se determina cate sunt negative, cate sunt zero si cate sunt pozitive. ");
             Console.WriteLine("\nIntroduceti lungimea (n) al secventei: ");
             uint n = N_CHECK();
             if (n == 0) return;
@@ -1141,7 +1224,7 @@ namespace SET2
         /// </summary>
         private static void P1()
         {
-            Console.WriteLine("ex 1. Se da o secventa de n numere. Sa se determine cate din ele sunt pare.");
+            Console.WriteLine("ex 1:\n   Se da o secventa de n numere. Sa se determine cate din ele sunt pare.");
 
             /* // metoda tablou in care nu este necesar sa declaram lungimea secventei de numere inainte sa introducem secventa de numere
             int count = 0;
@@ -1212,7 +1295,7 @@ namespace SET2
             Console.WriteLine("5. Cate elemente dintr-o secventa de n numere sunt egale cu pozitia pe care apar in secventa. \n   Se considera ca primul element din secventa este pe pozitia 0. ");
             Console.WriteLine("6. Se da o secventa de n numere. Sa se determine daca numerele din secventa sunt in ordine crescatoare.");
             Console.WriteLine("7. Se da o secventa de n numere. Sa se determine cea mai mare si cea mai mica valoare din secventa. ");
-            Console.WriteLine("8. Determianti al n-lea numar din sirul lui Fibonacci. Sirul lui Fibonacci se construieste astfel: f1 = 0, f2 = 1, f_n = f_(n-1) + f(n-2).");
+            Console.WriteLine("8. Determianti al n-lea numar din sirul lui Fibonacci. Sirul lui Fibonacci se construieste astfel: \n   f1 = 0, f2 = 1, f_n = f_(n-1) + f(n-2).");
             Console.WriteLine("9. Sa se determine daca o secventa de n numere este monotona.");
             Console.WriteLine("10. Se da o secventa de n numere. Care este numarul maxim de numere consecutive egale din secventa.");
             Console.WriteLine("11. Se da o secventa de n numere. Se cere sa se caculeze suma inverselor acestor numere.");
@@ -1221,7 +1304,7 @@ namespace SET2
             Console.WriteLine("14. Determinati daca o secventa de n numere este o secventa monotona rotita. ");
             Console.WriteLine("15. Se da o secventa de n numere. Sa se determine daca este bitonica. ");
             Console.WriteLine("16. Se cere sa se determine daca este o secventa bitonica rotita. ");
-            Console.WriteLine("17. Se da o secventa de 0 si 1, unde 0 inseamna paranteza deschisa si 1 inseamna paranteza inchisa. \n    Determinati daca secventa reprezinta o secventa de paranteze corecta si,  daca este, determinati nivelul maxim de incuibare a parantezelor.");
+            Console.WriteLine("17. Se da o secventa de 0 si 1, unde 0 inseamna paranteza deschisa si 1 inseamna paranteza inchisa. \n    Determinati daca secventa reprezinta o secventa de paranteze corecta si,\n    daca este, determinati nivelul maxim de incuibare a parantezelor.");
             Console.WriteLine();
 
             Console.Write("Introduceti un numar de la 1 la 17 sau 'exit' pentru a iesi din aplicatie: ");
