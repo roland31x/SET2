@@ -675,7 +675,7 @@ namespace SET2
             }
             try
             {
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < n - 1; i++)
                 {
                     int a;
                     a = int.Parse(secventa.Split(separator)[i]);
@@ -685,11 +685,15 @@ namespace SET2
                     }
                     if (a == 0 && countegal != 0)
                     {
-                        countgrup++;
-                        countegal = 0;
-                    }
-                    Console.WriteLine($"Secventa contine {countgrup} grupuri de numere consecutive diferite de zero");
+                        if (int.Parse(secventa.Split(separator)[i + 1]) != 0)
+                        {
+                            countgrup++;
+                            countegal = 0;
+                        }
+                    }                    
                 }
+                if ( countgrup == 1 && int.Parse(secventa.Split(separator)[0]) != 0 ) countgrup = 0;
+                Console.WriteLine($"Secventa contine {countgrup} grupuri de numere consecutive diferite de zero");
             }
             catch (IndexOutOfRangeException)
             {
@@ -768,7 +772,7 @@ namespace SET2
             Console.WriteLine("\nIntroduceti secventa de numere:");
             string secventaintro = Console.ReadLine();
             string secventa = secventaintro.Replace(" ", "");
-            int countegal = 0, countmax = 0;
+            int countegal = 0, countmax = 0, countmaxaux = 0;
             char separator = ',';
             if (secventa.Contains(';'))
             {
@@ -785,10 +789,14 @@ namespace SET2
                     {
                         countegal++;
                         countmax = countegal;
+                        if (countmaxaux < countmax)
+                        {
+                            countmaxaux = countmax;
+                        }                      
                     }
-                    if (a != b) countegal = 0;
+                    if (a != b) countegal = 0;                   
                 }
-                Console.WriteLine($"Secventa contine maxim {countmax + 1} numere consecutive egale.");
+                Console.WriteLine($"Secventa contine maxim {countmaxaux + 1} numere consecutive egale.");
             }
             catch (IndexOutOfRangeException)
             {
@@ -1087,7 +1095,7 @@ namespace SET2
                     x = int.Parse(secventa.Split(separator)[i]);
                     if (x == a)
                     {
-                        Console.Write($"{i} ");
+                        Console.Write($" {i + 1} ");
                         count++;
                     }
                 }
