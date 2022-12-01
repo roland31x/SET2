@@ -194,7 +194,7 @@ namespace SET2
                     }
                     if ( a == 1 )
                     {
-                        countf++;
+                        countst--;
                         incuibaux1--;
                     }
                     if (incuibaux1 > 0 && a == 0 )
@@ -206,8 +206,15 @@ namespace SET2
                         }                       
                     }
                     if (incuibaux1 == 0) incuib = 0;
+                    if(countst < 0)
+                    {
+                        {
+                            Console.WriteLine("Secventa introdusa este incorecta");
+                            return;
+                        }
+                    }
                 }
-                if (countst != countf)
+                if (countst != 0)
                 {
                     Console.WriteLine("Secventa introdusa este incorecta");
                     return;
